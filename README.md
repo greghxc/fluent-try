@@ -7,39 +7,41 @@ This utility has no additional dependencies and supports Java 8+.
 
 ## Usage Examples
 
-### General Usage
-
+### As "Sneaky Throws"
 ***Before:***
 ```java
-import io.hacksy.util.fluent.FluentTry;
-
-public class Main {
-    public static void main(String[]args){
-        String myValue;
-        
+List<MyPojo> myStuff = jsonStrings.stream()
+    .map(json -> {
         try {
-          myValue = volatileFunction();
+            return mapper.readValue(json, MyPojo.class);
         } catch (JsonProcessingException jpe) {
-          log.error(jpe.getMessage());
-          throw new RuntimeException(jpe);
-        }
-
-        String finalValue = myValue.toUpperCase();
-    }
-}
+            throw new RunTimeException(jpe);
+        })
+    .toList();
 ```
 
 ***After:***
 ```java
-import io.hacksy.util.fluent.FluentTry;
+List<MyPojo> myStuff = jsonStrings.stream()
+    .map(json -> FluentTry.of(() -> mapper.readValue(json, MyPojo.class)).get())
+    .toList();
+```
 
-public class Main {
-    public static void main(String[]args) {
-        String finalValue = FluentTry.of(() -> volatileFunction())
-            .onError(err -> log.error(err.getMessage()))
-            .toOptional()
-            .map(String::toUpperCase)
-            .get();
-    }
-}
+### To Optional with Logging
+***Before:***
+```java
+Optional<MyPojo> maybePojo;
+
+try {
+    maybePojo = Optional.of(mapper.readValue(json, MyPojo.class));
+} catch (JsonProcessingException jpe) {
+    log.error(jpe.getMessage());
+    maybePojo = Optional.empty();    
+```
+
+***After:***
+```java
+Optional<MyPojo> maybePojo = FluentTry.of(mapper.readValue(json, MyPojo.class))
+    .onError(err -> log.error(err.getMessage())
+    .toOptional();
 ```
