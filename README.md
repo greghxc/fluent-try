@@ -5,6 +5,7 @@ functional APIs without including Vavr, Reactor or other very capable libraries.
 
 This utility has no additional dependencies and supports Java 8+.
 
+Complete Javadoc is [available here](https://greghxc.github.io/fluent-try/io/hacksy/util/fluent/FluentTry.html).
 ## Usage Examples
 
 ### As "Sneaky Throws"
