@@ -45,7 +45,7 @@
         <version>3.5.0</version>
         <configuration>
           <reportOutputDirectory>${basedir}</reportOutputDirectory>
-          <destDir>javadoc</destDir>
+          <destDir>docs</destDir>
         </configuration>
       </plugin>
     </plugins>
