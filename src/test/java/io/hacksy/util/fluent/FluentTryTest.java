@@ -29,7 +29,7 @@ class FluentTryTest {
     void getThrownExceptionUnchecked() {
       RuntimeException expectedException = new RuntimeException("BOOM");
 
-      FluentTry<String > result = FluentTry.of((ThrowingSupplier<String>) () -> {
+      FluentTry<String > result = FluentTry.of(() -> {
         throw expectedException;
       });
 
@@ -43,7 +43,7 @@ class FluentTryTest {
     void getThrownExceptionChecked() {
       Exception expectedException = new ArithmeticException();
 
-      FluentTry<String > result = FluentTry.of((ThrowingSupplier<String>) () -> {
+      FluentTry<String > result = FluentTry.of(() -> {
         throw expectedException;
       });
 
@@ -55,7 +55,7 @@ class FluentTryTest {
     @Test
     @DisplayName("Returns empty if supplier returns null")
     void getReturnsNullWhenSupplierReturnsNull() {
-      FluentTry<String > result = FluentTry.of((ThrowingSupplier<String>) () -> null);
+      FluentTry<String > result = FluentTry.of(() -> null);
       assertThat(result.get()).isNull();
     }
   }
@@ -202,7 +202,7 @@ class FluentTryTest {
     }
   }
 
-  private class CheckableErrorConsumer implements Consumer<Throwable> {
+  private static class CheckableErrorConsumer implements Consumer<Throwable> {
     private final List<Throwable> calledWith;
 
     private CheckableErrorConsumer() {
