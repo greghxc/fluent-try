@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"io.hacksy.util.fluent","l":"CaughtException"},{"p":"io.hacksy.util.fluent","l":"FluentTry"},{"p":"io.hacksy.util.fluent","l":"ThrowingSupplier"}];updateSearchResults();
